@@ -23,4 +23,4 @@ x_test = tokenizer.texts_to_sequences(x_test)
 x_test = pad_sequences(x_test, max_len)
 
 scores = model.evaluate(x_test, y_test)
-print('acc: ', scores[1] * 100)
+print('acc: ', round(scores[1] * 100,3))

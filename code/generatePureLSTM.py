@@ -39,6 +39,6 @@ model.compile(loss='binary_crossentropy', optimizer='adam',
               metrics=['accuracy'])
 batch_size = 32
 print('model training started')
-model.fit(x_train, y_train, nb_epoch=1, batch_size=batch_size)
+model.fit(x_train, y_train, epochs=1, batch_size=batch_size)
 model.save(model_loc)
 print('model fitted')
