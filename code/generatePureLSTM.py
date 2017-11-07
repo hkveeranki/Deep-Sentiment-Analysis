@@ -11,7 +11,7 @@ from config import config
 data = []
 
 token_pickle = config['token_pickle_pure']
-model_loc = config['model_loc_pure']
+model_loc = config['lstm_model_loc']
 train_inp = config['train_input_file']
 
 train_df = get_data(train_inp)
