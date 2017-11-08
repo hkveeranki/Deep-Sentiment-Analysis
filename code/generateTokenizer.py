@@ -17,9 +17,9 @@ del train_df
 del test_df
 gc.collect()
 print('data prepared')
-max_fatures = 20000
+max_words = 100000
 print('tokenizer started')
-tokenizer = Tokenizer(num_words=max_fatures, split=' ')
+tokenizer = Tokenizer(num_words=max_words, split=' ')
 tokenizer.fit_on_texts(data['cleaned_tweet'])
 with open('../models/tokenizer_pureLSTM.pickle', 'wb') as handle:
     pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
