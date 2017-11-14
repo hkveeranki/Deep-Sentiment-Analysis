@@ -58,8 +58,10 @@ del labels
 gc.collect()
 print('data prepared')
 model = Sequential()
-model.add(Dense(128, activation='relu', input_dim=x_train[0].shape[0]))
+model.add(Dense(250, activation='tanh',input_shape=x_train[0].shape))
 model.add(Dropout(0.4))
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.3))
 model.add(Dense(64, activation='tanh'))
 model.add(Dropout(0.3))
 model.add(Dense(1, activation='sigmoid'))
@@ -67,7 +69,7 @@ model.compile(loss='binary_crossentropy', optimizer='adam',
               metrics=['accuracy'])
 batch_size = 32
 print('model training started')
-model.fit(x_train, y_train, epochs=10, batch_size=batch_size,
+model.fit(x_train, y_train, epochs=100, batch_size=batch_size,
           validation_data=(x_test, y_test))
 model.save(model_loc)
 print('model fitted')

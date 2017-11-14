@@ -45,7 +45,8 @@ for index, row in data.iterrows():
 del data
 gc.collect()
 print('data prepared')
-model = models.Doc2Vec(alpha=.025, min_alpha=.025, min_count=1)
+model = models.Doc2Vec(alpha=.025, min_alpha=.025, min_count=1,
+                       size=config['d2v_size'])
 model.build_vocab(sentences)
 print('Training started')
 model.train(sentences, total_examples=model.corpus_count, epochs=model.iter)

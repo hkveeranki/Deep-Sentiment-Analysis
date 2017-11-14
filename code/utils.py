@@ -11,13 +11,11 @@ def clean_tweet(tweet):
     :param tweet: raw tweet data
     :return: cleaned tweet
     """
-    tweet = tweet.lower()
     # Replace more than three occurrences
-    tweet = re.sub(r'([a-z])\1{2,}', r'\1\1', tweet)
+    # tweet = re.sub(r'([a-z])\1{2,}', r'\1\1', tweet)
     result = re.sub(r'http\S+', '', tweet)
     tweet_words = [x for x in result.split() if
-                   not x.startswith('#') and not x.startswith('@')
-                   and x not in stop_words]
+                   not x.startswith('#') and not x.startswith('@')]
     return ' '.join(tweet_words)
 
 

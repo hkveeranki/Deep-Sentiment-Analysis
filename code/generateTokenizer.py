@@ -3,6 +3,7 @@ import pickle
 import gc
 import pandas as pd
 from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
 
 from utils import get_data
 from config import config
@@ -17,9 +18,8 @@ del train_df
 del test_df
 gc.collect()
 print('data prepared')
-max_words = 100000
 print('tokenizer started')
-tokenizer = Tokenizer(num_words=max_words, split=' ')
+tokenizer = Tokenizer(num_words=config['num_words'])
 tokenizer.fit_on_texts(data['cleaned_tweet'])
 with open('../models/tokenizer_pureLSTM.pickle', 'wb') as handle:
     pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)

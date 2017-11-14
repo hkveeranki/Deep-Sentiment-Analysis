@@ -1,6 +1,7 @@
 import gc
 from gensim import models
 from keras.models import load_model
+from sklearn.metrics import precision_recall_fscore_support
 import numpy as np
 from config import config
 from utils import get_data
@@ -42,5 +43,9 @@ print('data prepared')
 gc.collect()
 batch_size = 32
 model = load_model(model_loc)
-scores = model.evaluate(x_test, y_test)
-print('acc: ', round(scores[1] * 100, 3))
+predictions = model.predict(x_test)
+pred = [round(x[0]) for x in predictions]
+prec,rec,f1,_ = precision_recall_fscore_support(y_test,pred,average='binary')
+print('recall: ', round(rec * 100,3))
+print('precision: ', round(prec * 100,3))
+print('f1score ', round(f1 * 100,3))
