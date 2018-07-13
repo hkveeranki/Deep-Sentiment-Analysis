@@ -1,5 +1,9 @@
+numpy
 nltk
 keras >= 2.0
+tensorflow
 h5py >= 2.7
 gensim >= 3.0
+scikit-learn
 pandas >= 0.20
+tqdm

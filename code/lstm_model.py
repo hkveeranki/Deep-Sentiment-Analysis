@@ -1,0 +1,75 @@
+"""
+Class for LSTM model for classification
+"""
+import gc
+import pickle
+import sys
+
+import pandas as pd
+from keras import Sequential
+from keras.layers import Embedding, SpatialDropout1D, Dropout, LSTM, Dense
+from keras_preprocessing.sequence import pad_sequences
+from keras_preprocessing.text import Tokenizer
+
+from model import Model
+
+
+class LSTMModel(Model):
+
+    def __init__(self, data_dimensions, save_path, batch_size=32, embedding_dimension=128,
+                 lstm_out=64, max_words=50000, num_epochs=2, prerequisite_save_path=None):
+        super(LSTMModel, self).__init__(data_dimensions, save_path, batch_size,
+                                        num_epochs, prerequisite_save_path)
+        self._embed_dim = embedding_dimension
+        self._lstm_length = lstm_out
+        self._max_words = max_words
+        self._epochs = num_epochs
+        self.__generate_model()
+        self._tokenizer = None
+
+    def _augment_data(self, data_df):
+        # Load the tokenizer
+        if not self._tokenizer:
+            if self.prerequisite_save_path:
+                with open(self.prerequisite_save_path, 'rb') as handle:
+                    self._tokenizer = pickle.load(handle)
+            else:
+                sys.stderr.write('Either generate the tokenizer or '
+                                 'give path for the saved tokenizer\n')
+        print('Tokenizer loaded')
+        # Drop bad data
+        data_df.drop(data_df[data_df.tweet.apply(
+            lambda x: len(self._tokenizer.texts_to_sequences([x])[0])) == 0].index,
+                     inplace=True)
+        x_data = data_df.tweet.values
+        y_data = data_df.label.values
+        # Tokenize the data as needed
+        x_data = self._tokenizer.texts_to_sequences(x_data)
+        # Pad the data to a fixed length
+        x_data = pad_sequences(x_data, self.data_dim)
+        return x_data, y_data
+
+    def generate_prerequisites(self, train_df, test_df):
+        data = pd.concat([train_df, test_df], axis=0)
+        gc.collect()
+        print('data prepared')
+        print('Tokenizer training started')
+        self._tokenizer = Tokenizer(num_words=self._max_words)
+        self._tokenizer.fit_on_texts(data['tweet'])
+        if self.prerequisite_save_path:
+            with open(self.prerequisite_save_path, 'wb') as handle:
+                pickle.dump(self._tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        print('tokenizer fitted')
+
+    def __generate_model(self):
+        self.model = Sequential()
+        self.model.add(
+            Embedding(self._max_words, self._embed_dim, input_length=self.data_dim))
+        self.model.add(SpatialDropout1D(0.4))
+        self.model.add(LSTM(self._lstm_length))
+        self.model.add(Dropout(0.5))
+        self.model.add(Dense(64, activation='tanh'))
+        self.model.add(Dropout(0.3))
+        self.model.add(Dense(1, activation='sigmoid'))
+        self.model.compile(loss='binary_crossentropy', optimizer='adam',
+                           metrics=['accuracy'])

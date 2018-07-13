@@ -1,10 +1,11 @@
-config = {}
-config['train_input_file'] = '../input/train.csv'
-config['test_input_file'] = '../input/test.csv'
-config['pad_len'] = 60
-config['token_pickle_pure'] = '../models/tokenizer_pureLSTM.pickle'
-config['lstm_model_loc'] = '../models/pureLSTM_model.h5'
-config['doc2vec_model'] = '../models/tweet_model.doc2vec'
-config['fcnn_model_loc'] = '../models/fcnn_model.h5'
-config['num_words'] = 50000
-config['d2v_size'] = 200
+config = {
+    'train_input_file': '../data/train.csv',
+    'test_input_file': '../data/test.csv',
+    'tokenizer_pickle': '../models/tokenizer_pureLSTM.pickle',
+    'lstm_model_loc': '../models/pureLSTM_model.h5',
+    'doc2vec_model': '../models/tweet_model.doc2vec',
+    'fcnn_model_loc': '../models/fcnn_model.h5',
+    'pad_len': 60,
+    'num_words': 50000,
+    'd2v_size': 200
+}
