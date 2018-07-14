@@ -1,6 +1,3 @@
-"""
-Class for Fully Connected model which works on Doc vectors
-"""
 import gc
 import sys
 
@@ -12,10 +9,18 @@ from keras import Sequential
 from keras.layers import Dense, Dropout
 from nltk import TweetTokenizer
 
-from model import Model
+from .model import Model
 
 
 class FCNNModel(Model):
+    """
+    Class for Fully Connected model which works on Doc vectors
+
+    This class implements functionality for implementing the functionality of performing
+    sentimental analysis on tweets on using a fully connected neural network on sentence
+    vectors obtained from tweets
+    """
+
     def __init__(self, data_dimensions, save_path=None, batch_size=32, num_epochs=2,
                  prerequisite_save_path=None):
         super(FCNNModel, self).__init__(data_dimensions, save_path, batch_size,

@@ -1,3 +1,8 @@
+"""
+Module deep_sentiment_analysis
+"""
+__author__ = 'Hemanth Kumar Veeranki'
+__version__ = '0.1.0'
 config = {
     'train_input_file': '../data/train.csv',
     'test_input_file': '../data/test.csv',

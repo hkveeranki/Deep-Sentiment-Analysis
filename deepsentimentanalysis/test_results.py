@@ -14,3 +14,10 @@ class TestResults(object):
         self.f1_score = f1_score
         self.precision = precision
         self.recall = recall
+
+    def __str__(self):
+        return '''
+        Precision: %s\n
+        Recall: %s\n
+        F1 score :%s
+        ''' % (self.precision, self.recall, self.f1_score)

@@ -26,4 +26,3 @@ Python2, Linux system (Preferable)
 	- `utils.py` contains utility functions
 - `data/` which contains training and test data
 - `models/` directory where the models are stored
-
